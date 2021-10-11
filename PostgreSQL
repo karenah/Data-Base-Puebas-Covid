@@ -1,0 +1,43 @@
+CREATE TABLE departamento(
+  dep_ips    SERIAL      NOT NULL UNIQUE PRIMARY KEY,
+  dep_nombre VARCHAR(45) NOT NULL
+);
+
+INSERT INTO departamento(dep_nombre) VALUES ('Antioquia');
+INSERT INTO departamento(dep_nombre) VALUES ('Atlantico');
+SELECT * FROM departamento;
+-----------------------------------------------------------------------------------------------------------------
+-------------------------------------------TABLA IPS-------------------------------------------------------------
+CREATE TABLE ips(
+  ips_id     SERIAL      NOT NULL UNIQUE PRIMARY KEY,
+  ips_nombre VARCHAR(45) NOT NULL,
+  ips_clave  VARCHAR(45)
+);
+INSERT INTO ips(ips_nombre,ips_clave) VALUES ('Compensar','k1,c2,v3');
+INSERT INTO ips(ips_nombre,ips_clave) VALUES ('Sura','a1b2c3');
+SELECT * FROM ips;
+------------------------------------------------------------------------------------------------------------------
+---------------------------------------------DEP_IPS--------------------------------------------------------------
+CREATE TABLE dep_ips(
+  depips_id     SERIAL      NOT NULL UNIQUE PRIMARY KEY,
+  depips_nombre VARCHAR(45) NOT NULL, 
+  FOREIGN KEY (depips_id ) REFERENCES departamento(dep_ips),
+  FOREIGN KEY (depips_id ) REFERENCES ips(ips_id)
+);
+INSERT INTO dep_ips(depips_nombre) VALUES ('Cundinamaca');
+INSERT INTO dep_ips(depips_nombre) VALUES ('Amazonas');
+SELECT * FROM ips;
+-----------------------------------------------------------------------------------------------------------------
+---------------------------------------------REGISTRARR-----------------------------------------------------------
+CREATE TABLE registrar(
+  reg_id  SERIAL NOT NULL UNIQUE PRIMARY KEY,
+  reg_fecha DATE NOT NULL,
+  reg_pruebas_positivas INT,
+  reg_pruebas_negativas INT,
+  reg_pruebas_indeterminadas INT,
+  reg_total_pruebas INT,
+  FOREIGN KEY (reg_id) REFERENCES dep_ips(depips_id)	
+);
+INSERT INTO registrar(reg_fecha,reg_pruebas_positivas,reg_pruebas_negativas,reg_pruebas_indeterminadas,reg_total_pruebas) VALUES ('01-01-2021',20,20,20,60);
+INSERT INTO registrar(reg_fecha,reg_pruebas_positivas,reg_pruebas_negativas,reg_pruebas_indeterminadas,reg_total_pruebas) VALUES ('01-01-2021',30,30,30,90);
+SELECT * FROM registrar;
